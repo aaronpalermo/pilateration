@@ -1,10 +1,13 @@
 # pilateration
 The goal of this project is to evaluate the practicality of using RSSI to calculate the location of a transmitter within a polygon where the verticies are passive WiFi monitors.
 
-## Step 1 - walk around & collect RSSI
+## Step 1 [DONE] - collect RSSI for known distances
+For a given set of distances and orientations, collect RSSI data.  Distances range from 1ft to 16ft at 1ft increments.  Orientations are all vertical, and consist of different parts of the TX (mobile phone) facing the vertically oriented antenna.  Orientations denote the part of the phone facing the antenna and include: screen, back, left side, and right side.
+
+## Step 2 - walk around & collect RSSI
 I have 4 sensors, all Raspberry Pis with this identical WiFi adapter. I specifically chose this adapter because of the low cost, monitor mode capability, and single antenna so I won't get any directional gain like I may in dual-antenna setups.
 
-## Step 2 - Compare RSSI to distance
+## Step 3 - Compare RSSI to distance
 Since all 4 of the adapters are identical, hopefully the RSSI will correspond to a relative distance from the receiver. Then to work out the math and plot (ideally in real-time) the transmitter location within the receiver area.
 
 # Hardware
