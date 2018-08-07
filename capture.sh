@@ -19,6 +19,6 @@ TIMESTAMP=$(date +%Y.%m.%d-%H.%M.%S)
 #      even if we don't know (or care to know) the WPA keys
 # -s 256 = we only want the first 256 bytes of the packet, not the whole thing
 # not subtype beacon = don't look at router beacons.  These are horribly noisy.
-tcpdump -tttt -i wlan1mon -e -s 256 not subtype beacon > /opt/wifi/$TIMESTAMP.txt &
+sudo tcpdump -tttt -i wlan1mon -e -s 256 not subtype beacon > /opt/wifi/$TIMESTAMP.txt &
 
 
