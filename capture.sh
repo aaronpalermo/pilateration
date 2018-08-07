@@ -1,5 +1,5 @@
-sudo mkdir -p /opt/wifi
-sudo chmod 777 /opt/wifi/
+mkdir -p /opt/wifi
+chmod 777 /opt/wifi/
 
 # I lock collection to channel 11 since we have known 
 # transmitters and we want to reduce collection initially 
@@ -19,6 +19,6 @@ TIMESTAMP=$(date +%Y.%m.%d-%H.%M.%S)
 #      even if we don't know (or care to know) the WPA keys
 # -s 256 = we only want the first 256 bytes of the packet, not the whole thing
 # not subtype beacon = don't look at router beacons.  These are horribly noisy.
-sudo tcpdump -tttt -i wlan1mon -e -s 256 not subtype beacon > /opt/wifi/$TIMESTAMP.txt &
+tcpdump -tttt -i wlan1mon -e -s 256 not subtype beacon > /opt/wifi/$TIMESTAMP.txt &
 
 
