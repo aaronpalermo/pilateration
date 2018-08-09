@@ -22,5 +22,18 @@ TIMESTAMP=$(date +%Y.%m.%d-%H.%M.%S)
 #tcpdump -tttt -i wlan1mon -e -s 256 not subtype beacon > /opt/wifi/$TIMESTAMP.txt &
 
 #run tcpdump to capture from a MAC address where 0xc8 is the 8th byte
-tcpdump -tttt -i wlan1mon -e -s 256 'ether[8]=0x58' > /opt/wifi/$TIMESTAMP.txt &
+#tcpdump -tttt -i wlan1mon -e -s 256 'ether[8]=0x58' > /opt/wifi/$TIMESTAMP.txt &
+
+# Moving this to tshark becuase it has awesome filtering and display capabilities
+# -s 256 = only look at the first 256 bytes of each packet
+# -Y = use a display filter as a capture filter.  AWESOME!
+# wlan.ta_resolved contains "c3:58" = only capture packets where the last 3 bytes of the MAC contain "c3:58"
+# wlan.bssid != wlan.ta = ensures we don't capture any traffic from routers or access points
+# -T fields = specify which fields to output
+# -E header=y -E separator=, -E quote=d  = ouptut in a nice CSV format
+# -e frame.time_epoch -e wlan.ta_resolved -e wlan_radio.signal_dbm = output those 3 fields
+tshark -s 256 -i wlan1mon -Y 'wlan.ta_resolved contains "c3:58" && wlan.bssid != wlan.ta' -T fields -e frame.time_epoch -e wlan.ta_resolved -e wlan_radio.signal_dbm -E header=y -E separator=, -E quote=d > /opt/wifi/$TIMESTAMP.txt &
+
+
+
 
