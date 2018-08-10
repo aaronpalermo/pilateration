@@ -1,7 +1,7 @@
 import pyshark
 import hashlib
 import time
-capture = pyshark.LiveCapture(interface='wlan0mon', display_filter='wlan.ta_resolved contains "c3:58"')
+capture = pyshark.LiveCapture(interface='wlan1mon', display_filter='wlan.ta_resolved contains "c3:58"')
 
 for packet in capture.sniff_continuously():
   #pretty_print('Just arrived:', packet)
