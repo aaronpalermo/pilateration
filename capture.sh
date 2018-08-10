@@ -31,8 +31,12 @@ TIMESTAMP=$(date +%Y.%m.%d-%H.%M.%S)
 # wlan.bssid != wlan.ta = ensures we don't capture any traffic from routers or access points
 # -T fields = specify which fields to output
 # -E header=y -E separator=, -E quote=d  = ouptut in a nice CSV format
-# -e frame.time_epoch -e wlan.ta_resolved -e wlan_radio.signal_dbm = output those 3 fields
-tshark -s 256 -i wlan1mon -Y 'wlan.ta_resolved contains "c3:58" && wlan.bssid != wlan.ta' -T fields -e frame.time_epoch -e wlan.ta_resolved -e wlan_radio.signal_dbm -E header=y -E separator=, -E quote=d > /opt/wifi/$TIMESTAMP.txt &
+# -e frame.time_epoch = show frame time (according to recevier)
+# -e wlan.ta_resolved = show mac address with first 3 bytes shown as vendor
+# -e wlan_radio.signal_dbm = output signal strength
+# - e wlan.fcs = frame check sequence (crc32) value to help determine uniqueness of a frame
+
+tshark -s 256 -i wlan1mon -Y 'wlan.ta_resolved contains "c3:58" && wlan.bssid != wlan.ta' -T fields -e frame.time_epoch -e wlan.fcs -e wlan.ta_resolved -e wlan_radio.signal_dbm -E header=y -E separator=, -E quote=d > /opt/wifi/$TIMESTAMP.txt &
 
 
 
