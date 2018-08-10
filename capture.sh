@@ -36,8 +36,9 @@ TIMESTAMP=$(date +%Y.%m.%d-%H.%M.%S)
 # -e wlan_radio.signal_dbm = output signal strength
 # - e wlan.fcs = frame check sequence (crc32) value to help determine uniqueness of a frame
 
-tshark -s 256 -i wlan1mon -Y 'wlan.ta_resolved contains "c3:58" && wlan.bssid != wlan.ta' -T fields -e frame.time_epoch -e wlan.fcs -e wlan.ta_resolved -e wlan_radio.signal_dbm -E header=y -E separator=, -E quote=d > /opt/wifi/$TIMESTAMP.txt &
+#tshark -s 256 -i wlan1mon -Y 'wlan.ta_resolved contains "c3:58" && wlan.bssid != wlan.ta' -T fields -e frame.time_epoch -e wlan.fcs -e wlan.ta_resolved -e wlan_radio.signal_dbm -E header=y -E separator=, -E quote=d > /opt/wifi/$TIMESTAMP.txt &
 
+python3 /home/pi/pilateration/capture.py > /opt/wifi/$TIMESTAMP.txt &
 
 
 
