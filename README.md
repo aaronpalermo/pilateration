@@ -20,3 +20,8 @@ I have several of these, ranging from the original [Model B](https://www.adafrui
 [Wifi With Antenna For Raspberry Pi](https://www.amazon.com/gp/product/B00H95C0A2/)
 
 ![alt text](https://camo.githubusercontent.com/602dac8e9fd58802145e8d2a0e7991383c9dfe08/68747470733a2f2f696d616765732d6e612e73736c2d696d616765732d616d617a6f6e2e636f6d2f696d616765732f492f35315a7a634e5334524f4c2e6a7067 "WIFI USB adapter image")
+
+# Interesting stuff for later
+## Wireshark view filters
+Devices looking for APs: wlan.tag && wlan.fc.subtype == 0x4
+SSID of AP the deivce with the above filter is looking for: packet.wlan.tag
