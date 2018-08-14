@@ -21,10 +21,10 @@ class HTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
     print(mac)
     
     if not sensor_ip in logfile:
-        logfile[sensor_ip] = {}
-        #logfile[sensor_ip][mac] = [timestamp, dbm, data_md5]
+      logfile[sensor_ip] = {}
+      #logfile[sensor_ip][mac] = [timestamp, dbm, data_md5]
     if not input_data[1] in logfile[sensor_ip]:
-        logfile[sensor_ip][mac] = []
+      logfile[sensor_ip][mac] = []
 
     logfile[sensor_ip][mac].append([timestamp, dbm, data_md5])
 
