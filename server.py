@@ -5,15 +5,12 @@
 # Expected client usage:
 # curl -X PUT -d "2019-02-10 18:27:44.660371,a7:c6:f5:a3:54:rd,-83,no data in pkt" http://10.10.0.2:8000
 
-
-
 import threading
 import time
 import http.server
 import os
 
 logfile = {}
-
 
 class HTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
   def do_PUT(self):
@@ -50,24 +47,24 @@ class HTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
     return
 
 class ThreadingExample(object):
-    """ Threading example class
-    The run() method will be started and it will run in the background
-    until the application exits.
+  """ Threading example class
+  The run() method will be started and it will run in the background
+  until the application exits.
+  """
+
+  def __init__(self, interval=1):
+    """ Constructor
+    :type interval: int
+    :param interval: Check interval, in seconds
     """
+    self.interval = interval
 
-    def __init__(self, interval=1):
-        """ Constructor
-        :type interval: int
-        :param interval: Check interval, in seconds
-        """
-        self.interval = interval
+    thread = threading.Thread(target=self.run, args=())
+    thread.daemon = True                            # Daemonize thread
+    thread.start()                                  # Start the execution
 
-        thread = threading.Thread(target=self.run, args=())
-        thread.daemon = True                            # Daemonize thread
-        thread.start()                                  # Start the execution
-
-    def run(self):
-        """ Method that runs forever """
-        http.server.test(HandlerClass=HTTPRequestHandler, port=8000, bind='')
+  def run(self):
+    """ Method that runs forever """
+    http.server.test(HandlerClass=HTTPRequestHandler, port=8000, bind='')
 
 example = ThreadingExample()
