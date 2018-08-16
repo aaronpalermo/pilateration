@@ -17,21 +17,29 @@ class HTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
     
     sensor_ip = str(self.client_address[0])
     input_data = str(self.rfile.read(length)).split(',')
-    timestamp, mac, dbm, data_md5 = input_data
-    print(mac)
     
-    if not sensor_ip in logfile:
-      logfile[sensor_ip] = {}
-      #logfile[sensor_ip][mac] = [timestamp, dbm, data_md5]
-    if not input_data[1] in logfile[sensor_ip]:
-      logfile[sensor_ip][mac] = []
+    timestamp = 0
+    try:
+      timestamp, mac, dbm, data_md5 = input_data
+    except:
+      #got some garbage in, so throwing away that line
+      pass
+        
+    if (timestamp != 0):    
+      print(mac)
 
-    logfile[sensor_ip][mac].append([timestamp, dbm, data_md5])
+      if not sensor_ip in logfile:
+        logfile[sensor_ip] = {}
+        #logfile[sensor_ip][mac] = [timestamp, dbm, data_md5]
+      if not input_data[1] in logfile[sensor_ip]:
+        logfile[sensor_ip][mac] = []
 
-    print(logfile)
+      logfile[sensor_ip][mac].append([timestamp, dbm, data_md5])
 
-    self.send_response(201, "Created")
-    self.end_headers()
+      print(logfile)
+
+      self.send_response(201, "Created")
+      self.end_headers()
 
 if __name__ == '__main__':
   http.server.test(HandlerClass=HTTPRequestHandler, port=8000, bind='')
