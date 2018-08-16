@@ -1,9 +1,14 @@
 #!/usr/bin/env python
-# Modified from source found here: https://gist.github.com/mildred/67d22d7289ae8f16cae7
+# HTTP server code from: https://gist.github.com/mildred/67d22d7289ae8f16cae7
+# Threading code from: http://sebastiandahlgren.se/2014/06/27/running-a-method-as-a-background-thread-in-python/
 
 # Expected client usage:
 # curl -X PUT -d "2019-02-10 18:27:44.660371,a7:c6:f5:a3:54:rd,-83,no data in pkt" http://10.10.0.2:8000
 
+
+
+import threading
+import time
 import http.server
 import os
 
@@ -26,7 +31,7 @@ class HTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
       pass
         
     if (timestamp != 0):    
-      print(mac)
+      #print(mac)
 
       if not sensor_ip in logfile:
         logfile[sensor_ip] = {}
@@ -36,11 +41,33 @@ class HTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
 
       logfile[sensor_ip][mac].append([timestamp, dbm, data_md5])
 
-      print(logfile)
+      #print(logfile)
+      print('{0} {1} {2}'.format(sensor_ip, mac, [timestamp, dbm, data_md5]), end='\r')
 
       self.send_response(201, "Created")
       self.end_headers()
+  def log_message(self, format, *args):
+    return
 
-if __name__ == '__main__':
-  http.server.test(HandlerClass=HTTPRequestHandler, port=8000, bind='')
-  
+class ThreadingExample(object):
+    """ Threading example class
+    The run() method will be started and it will run in the background
+    until the application exits.
+    """
+
+    def __init__(self, interval=1):
+        """ Constructor
+        :type interval: int
+        :param interval: Check interval, in seconds
+        """
+        self.interval = interval
+
+        thread = threading.Thread(target=self.run, args=())
+        thread.daemon = True                            # Daemonize thread
+        thread.start()                                  # Start the execution
+
+    def run(self):
+        """ Method that runs forever """
+        http.server.test(HandlerClass=HTTPRequestHandler, port=8000, bind='')
+
+example = ThreadingExample()
