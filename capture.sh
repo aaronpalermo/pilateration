@@ -6,7 +6,7 @@ chmod 777 /opt/wifi/
 # until we know if RSSI is actually going to tell us 
 # anthing about relative distance between transmitter and receiver
 # airmon-ng starts wlan1 in monitor mode on channel 11
-airmon-ng start wlan1 11
+airmon-ng start wlan1 8
 
 # set the timestamp variable so I write to a new file
 # every time the script is run
@@ -38,7 +38,8 @@ TIMESTAMP=$(date +%Y.%m.%d-%H.%M.%S)
 
 #tshark -s 256 -i wlan1mon -Y 'wlan.ta_resolved contains "c3:58" && wlan.bssid != wlan.ta' -T fields -e frame.time_epoch -e wlan.fcs -e wlan.ta_resolved -e wlan_radio.signal_dbm -E header=y -E separator=, -E quote=d > /opt/wifi/$TIMESTAMP.txt &
 
-python3 /home/pi/pilateration/capture.py > /opt/wifi/$TIMESTAMP.txt &
+python3 /home/pi/pilateration/capture.py 
+#> /opt/wifi/$TIMESTAMP.txt &
 
 
 
