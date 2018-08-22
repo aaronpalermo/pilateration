@@ -9,8 +9,14 @@ import threading
 import time
 import http.server
 import os
+from collections import deque
 
 logfile = {}
+print("LEFT        BACK-LEFT      BACK-RIGHT        RIGHT")
+left_dbm = ''
+back_left_dbm = ''
+back_right_dbm = '' 
+right_dbm = ''
 
 class HTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
   def do_PUT(self):
@@ -34,12 +40,10 @@ class HTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
         logfile[sensor_ip] = {}
         #logfile[sensor_ip][mac] = [timestamp, dbm, data_md5]
       if not input_data[1] in logfile[sensor_ip]:
-        logfile[sensor_ip][mac] = []
+        #logfile[sensor_ip][mac] = []
+        logfile[sensor_ip][mac] = deque([],10)
 
       logfile[sensor_ip][mac].append([timestamp, dbm, data_md5])
-
-      #print(logfile)
-      print('{0} {1} {2}'.format(sensor_ip, mac, [timestamp, dbm, data_md5]), end='\r')
 
       self.send_response(201, "Created")
       self.end_headers()
@@ -68,3 +72,5 @@ class ThreadingExample(object):
     http.server.test(HandlerClass=HTTPRequestHandler, port=8000, bind='')
 
 example = ThreadingExample()
+
+print()
