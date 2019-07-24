@@ -24,7 +24,7 @@ I have several of these, ranging from the original [Model B](https://www.adafrui
 
 ## Actual Jupyter/Matplotlib output
 It's almost a best case scenario, but here is what the matplotlib output should look like, showing the approximate location of a transmitter where the circles almost overlap.
-
+![alt text](https://raw.githubusercontent.com/aaronpalermo/pilateration/master/sample_output.png "Sample output")
 
 # Interesting stuff for later
 ## Wireshark view filters
